@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
-using TestTask.Domain.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace TestTask.Domain.ViewModels
 {
     public class LibraryItemViewModel
     {
         public BookViewModel Book { get; set; }
-        public IEnumerable<BookViewModel> Authors { get; set; }
+        [Display(Name = "Authors")]
+        public IEnumerable<AuthorViewModel> Authors { get; set; }
     }
 }

@@ -25,7 +25,13 @@ namespace TestTask.Domain.Services
             foreach (var book in books)
             {
                 var authors = await _unitOfWork.Authors.GetBookAuthors(book.Id);
-                inventory.Add(new LibraryItemViewModel{ Authors = authors, Book = book});
+                inventory
+                    .Add(
+                        new LibraryItemViewModel
+                        {
+                            Authors = authors.Select(a => _mapper.Map<AuthorViewModel>(a)), 
+                            Book = _mapper.Map<BookViewModel>(book)
+                        });
             }
 
             return inventory;

@@ -18,5 +18,20 @@ namespace TestTask.Mvc.Controllers
             var inventory = await _libraryService.GetLibrary();
             return View(inventory);
         }
+
+        public IActionResult EditBook(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IActionResult BookDetails(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IActionResult DeleteBook(int id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

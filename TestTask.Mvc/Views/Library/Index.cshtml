@@ -1,3 +1,43 @@
-﻿@model IEnumerable<LibraryItemViewModel>
+﻿@using Microsoft.EntityFrameworkCore.Internal
+@model IEnumerable<LibraryItemViewModel>
 
-
+<h2>Library</h2>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">@Html.DisplayNameFor(x => x.Book.Name)</th>
+        <th scope="col">@Html.DisplayNameFor(x => x.Book.Year)</th>
+        <th scope="col">@Html.DisplayNameFor(x => x.Authors)</th>
+        <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in @Model)
+    {
+        <tr>
+            <th scope="row">@Model.IndexOf(item)</th>
+            <td>@Html.DisplayFor(x => item.Book.Name)</td>
+            <td>@Html.DisplayFor(x => item.Book.Year)</td>
+            <td>
+                <a
+                    tabindex="0"
+                    data-placement="top"
+                    class="btn btn-lg btn-danger"
+                    role="button"
+                    data-toggle="popover"
+                    data-trigger="focus"
+                    title="@Html.DisplayNameForModel()"
+                    data-content="@string.Join(Environment.NewLine, item.Authors.Select(a => a.Surname))">
+                    Show @Html.DisplayNameForModel()
+                </a>
+            </td>
+            <td>
+                @Html.ActionLink("Edit book", "EditBook", new { id=item.Book.Id }, new { @class = "btn btn-success"}) |
+                @Html.ActionLink("Book details", "BookDetails", new { id=item.Book.Id  }, new { @class = "btn btn-primary"}) |
+                @Html.ActionLink("Delete book", "DeleteBook", new { id = item.Book.Id }, new { @class = "btn btn-error"})
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

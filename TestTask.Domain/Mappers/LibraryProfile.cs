@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using TestTask.Domain.Models;
+using TestTask.Domain.ViewModels;
 
 namespace TestTask.Domain.Mappers
 {
@@ -6,7 +8,8 @@ namespace TestTask.Domain.Mappers
     {
         public LibraryProfile()
         {
-            CreateMap()
+            CreateMap<Book, BookViewModel>();
+            CreateMap<Author, AuthorViewModel>();
         }
     }
 }
