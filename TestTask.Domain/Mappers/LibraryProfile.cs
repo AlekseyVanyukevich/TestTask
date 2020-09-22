@@ -13,6 +13,8 @@ namespace TestTask.Domain.Mappers
             CreateMap<Book, BookViewModel>();
             CreateMap<Author, AuthorViewModel>();
             CreateMap<IEnumerable<Author>, List<AuthorViewModel>>();
+            CreateMap<IEnumerable<Book>, List<BookViewModel>>();
+
         }
     }
 }

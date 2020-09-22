@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TestTask.Domain.Services;
+using TestTask.Domain.ViewModels;
 
 namespace TestTask.Mvc.Controllers
 {
@@ -15,18 +16,19 @@ namespace TestTask.Mvc.Controllers
         // GET
         public async Task<IActionResult> Index()
         {
-            var inventory = await _libraryService.GetLibrary();
+            var inventory = await _libraryService.GetLibraryBooks();
             return View(inventory);
         }
 
-        public IActionResult EditBook(int id)
+        public async Task<IActionResult> EditBook(int id)
         {
-            throw new System.NotImplementedException();
+            var book = await _libraryService.GetBookInfoById(id);
+            return View("CreateEditBook", book);
         }
 
         public async Task<IActionResult> BookDetails(int id)
         {
-            var bookInfo = await _libraryService.GetBookInfo(id);
+            var bookInfo = await _libraryService.GetBookInfoById(id);
             return View(bookInfo);
         }
 
@@ -37,7 +39,24 @@ namespace TestTask.Mvc.Controllers
 
         public async Task<IActionResult> AuthorProfile(int id)
         {
-            throw new System.NotImplementedException();
+            var authorInfo = await _libraryService.GetAuthorInfoById(id);
+            return View(authorInfo);
+        }
+
+        public IActionResult CreateBook()
+        {
+            return View("CreateEditBook", new BookViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateEditBook(BookViewModel book)
+        {
+            if (ModelState.IsValid)
+            {
+                
+            }
+
+            return View(book);
         }
     }
 }

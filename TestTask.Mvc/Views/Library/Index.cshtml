@@ -1,6 +1,6 @@
 ﻿@using Microsoft.EntityFrameworkCore.Internal
 @using TestTask.Mvc.Extensions
-@model IEnumerable<LibraryItemViewModel>
+@model IEnumerable<BookViewModel>
 
 
 <h2>Library</h2>
@@ -8,19 +8,19 @@
     <thead>
     <tr>
         <th scope="col">#</th>
-        <th scope="col">@Html.DisplayNameFor(x => x.Book.Name)</th>
-        <th scope="col">@Html.DisplayNameFor(x => x.Book.Year)</th>
+        <th scope="col">@Html.DisplayNameFor(x => x.Name)</th>
+        <th scope="col">@Html.DisplayNameFor(x => x.Year)</th>
         <th scope="col">@Html.DisplayNameFor(x => x.Authors)</th>
         <th scope="col">Actions</th>
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in @Model)
+    @foreach (var book in @Model)
     {
         <tr class="align-middle">
-            <th scope="row">@(Model.IndexOf(item) + 1)</th>
-            <td>@Html.DisplayFor(x => item.Book.Name)</td>
-            <td>@Html.DisplayFor(x => item.Book.Year)</td>
+            <th scope="row">@(Model.IndexOf(book) + 1)</th>
+            <td>@Html.DisplayFor(x => book.Name)</td>
+            <td>@Html.DisplayFor(x => book.Year)</td>
             <td>
                 <a
                     data-placement="top"
@@ -28,17 +28,18 @@
                     role="button"
                     data-toggle="popover"
                     data-trigger="focus"
-                    title="@Html.DisplayNameFor(x => item.Authors)"
-                    data-content="@item.Authors.Select(a => a.Surname).JoinWithNewLine()">
-                    Show @Html.DisplayNameFor(x => item.Authors)
+                    title="@Html.DisplayNameFor(x => book.Authors)"
+                    data-content="@book.Authors.Select(a => a.Surname).JoinWithNewLine()">
+                    Show @Html.DisplayNameFor(x => book.Authors)
                 </a>
             </td>
             <td>
-                @Html.ActionLink("Edit book", "EditBook", new { id=item.Book.Id }, new { @class = "btn btn-success"}) |
-                @Html.ActionLink("Book details", "BookDetails", new { id=item.Book.Id  }, new { @class = "btn btn-primary"}) |
-                @Html.ActionLink("Delete book", "DeleteBook", new { id = item.Book.Id }, new { @class = "btn btn-danger"})
+                @Html.ActionLink("Edit book", "EditBook", new { id=book.Id }, new { @class = "btn btn-success"}) |
+                @Html.ActionLink("Book details", "BookDetails", new { id=book.Id  }, new { @class = "btn btn-primary"}) |
+                @Html.ActionLink("Delete book", "DeleteBook", new { id = book.Id }, new { @class = "btn btn-danger"})
             </td>
         </tr>
     }
     </tbody>
 </table>
+@Html.ActionLink("Create new book", "CreateBook",new { @class = "btn btn-primary"} )

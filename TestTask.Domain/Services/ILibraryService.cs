@@ -6,8 +6,10 @@ namespace TestTask.Domain.Services
 {
     public interface ILibraryService
     {
-        Task<IEnumerable<LibraryItemViewModel>> GetLibrary();
+        Task<IEnumerable<BookViewModel>> GetLibraryBooks();
 
-        Task<LibraryItemViewModel> GetBookInfo(int id);
+        Task<BookViewModel> GetBookInfoById(int id);
+
+        Task<AuthorViewModel> GetAuthorInfoById(int id);
     }
 }
