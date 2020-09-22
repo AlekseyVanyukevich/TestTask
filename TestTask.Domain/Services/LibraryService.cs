@@ -19,17 +19,13 @@ namespace TestTask.Domain.Services
         {
             var books = await _unitOfWork.Books.GetAll();
             var inventory = new List<LibraryItemViewModel>();
-            inventory.AddRange(
-                books.Select(async book =>
-                {
-                    var authors = await _unitOfWork.Authors.GetBookAuthors(book.Id);
-                    return new LibraryItemViewModel {Authors = authors, Book = book};
-                }));
             foreach (var book in books)
             {
                 var authors = await _unitOfWork.Authors.GetBookAuthors(book.Id);
-                inventory.ad
+                inventory.Add(new LibraryItemViewModel{ Authors = authors, Book = book});
             }
+
+            return inventory;
         }
     }
 }
