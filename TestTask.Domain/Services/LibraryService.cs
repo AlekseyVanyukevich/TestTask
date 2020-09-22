@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using TestTask.Domain.Repositories;
 using TestTask.Domain.ViewModels;
 
@@ -9,10 +10,12 @@ namespace TestTask.Domain.Services
     public class LibraryService : ILibraryService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public LibraryService(IUnitOfWork unitOfWork)
+        public LibraryService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
         
         public async Task<IEnumerable<LibraryItemViewModel>> GetLibrary()

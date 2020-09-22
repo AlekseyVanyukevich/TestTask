@@ -1,6 +1,4 @@
-using System;
-
-namespace TestTask.Mvc.Models
+﻿namespace TestTask.Domain.ViewModels
 {
     public class ErrorViewModel
     {

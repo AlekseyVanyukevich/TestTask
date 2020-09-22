@@ -26,7 +26,8 @@ namespace TestTask.Mvc
                 .AddScoped<IBooksRepository, BooksRepository>()
                 .AddScoped<IAuthorsRepository, AuthorsRepository>()
                 .AddScoped<IUnitOfWork, UnitOfWork>()
-                // .AddServices()
+                
+                .AddServices()
                 .AddControllersWithViews();
             
         }

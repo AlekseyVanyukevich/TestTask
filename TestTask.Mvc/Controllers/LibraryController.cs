@@ -1,23 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using TestTask.Domain.Repositories;
-using TestTask.Infrastructure;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using TestTask.Domain.Services;
 
 namespace TestTask.Mvc.Controllers
 {
     public class LibraryController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ILibraryService _libraryService;
 
-        public LibraryController(IUnitOfWork unitOfWork)
+        public LibraryController(ILibraryService libraryService)
         {
-            _unitOfWork = unitOfWork;
+            _libraryService = libraryService;
         }
         // GET
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-
-            var libraryInventory = _unitOfWork.Authors.
-            return View();
+            var inventory = await _libraryService.GetLibrary();
+            return View(inventory);
         }
     }
 }

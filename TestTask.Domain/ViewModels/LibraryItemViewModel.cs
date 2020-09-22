@@ -5,7 +5,7 @@ namespace TestTask.Domain.ViewModels
 {
     public class LibraryItemViewModel
     {
-        public Book Book { get; set; }
-        public IEnumerable<Author> Authors { get; set; }
+        public BookViewModel Book { get; set; }
+        public IEnumerable<BookViewModel> Authors { get; set; }
     }
 }
