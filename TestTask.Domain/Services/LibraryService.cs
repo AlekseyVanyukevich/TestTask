@@ -29,12 +29,23 @@ namespace TestTask.Domain.Services
                     .Add(
                         new LibraryItemViewModel
                         {
-                            Authors = authors.Select(a => _mapper.Map<AuthorViewModel>(a)), 
+                            Authors = _mapper.Map<IEnumerable<AuthorViewModel>>(authors), 
                             Book = _mapper.Map<BookViewModel>(book)
                         });
             }
 
             return inventory;
+        }
+
+        public async Task<LibraryItemViewModel> GetBookInfo(int id)
+        {
+            var book = await _unitOfWork.Books.Get(id);
+            var authors = await _unitOfWork.Authors.GetBookAuthors(id);
+            return new LibraryItemViewModel
+            {
+                Authors = _mapper.Map<IEnumerable<AuthorViewModel>>(authors),
+                Book = _mapper.Map<BookViewModel>(book)
+            };
         }
     }
 }

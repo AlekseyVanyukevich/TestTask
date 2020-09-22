@@ -24,12 +24,18 @@ namespace TestTask.Mvc.Controllers
             throw new System.NotImplementedException();
         }
 
-        public IActionResult BookDetails(int id)
+        public async Task<IActionResult> BookDetails(int id)
+        {
+            var bookInfo = await _libraryService.GetBookInfo(id);
+            return View(bookInfo);
+        }
+
+        public IActionResult DeleteBook(int id)
         {
             throw new System.NotImplementedException();
         }
 
-        public IActionResult DeleteBook(int id)
+        public async Task<IActionResult> AuthorProfile(int id)
         {
             throw new System.NotImplementedException();
         }

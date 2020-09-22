@@ -17,7 +17,7 @@ namespace TestTask.Infrastructure.Repositories
 
         public async Task Add(Book book, IEnumerable<Author> authors)
         {
-            if (!EnumerableExtensions.Any(authors))
+            if (authors.Count() == 0)
             {
                 throw new ArgumentException("Must be at least one author");
             }
