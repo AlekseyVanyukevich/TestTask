@@ -1,19 +1,39 @@
 ﻿@model BookViewModel
+<form asp-controller="Library" asp-action="CreateEditBook" method="post">
+  @Html.AntiForgeryToken()
+  @if (Model?.Id != 0)
+  {
+        <p><span class="font-weight-bold" style="margin-right: 10px">@Html.DisplayNameFor(x => x.Id):</span>@Model?.Id</p>
+        <input asp-for="Id" type="hidden">
+  }
+  <div class="form-group">
+    <label asp-for="Name"></label>
+    <input class="form-control" asp-for="Name" placeholder="Enter name">
+    <span asp-validation-for="Name" class="text-danger"></span>
+  </div>
+  <div class="form-group">
+    <label asp-for="Year"></label>
+    <input class="form-control" asp-for="Year" placeholder="Enter year of publication">
+    <span asp-validation-for="Year" class="text-danger"></span>
+  </div>
+  <p>@Html.DisplayNameFor(x => x.Authors)</p>
+  @if (Model?.Authors != null)
+  {
+    foreach (var author in Model.Authors)
+    {
+      <div class="form-group form-group-delete">
+        <input type="text" class="form-control" value="@author.Surname" name="author" placeholder="Enter author surname">
+        <button  type="button" class="btn btn-outline-danger delete-btn"></button>
+      </div>
+    }
+  }
+  <div id="fields"></div>
+  <button class="btn btn-primary" id="add-field">
+    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+    </svg>
+  </button>
 
-<form>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-  </div>
-  <div class="form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 

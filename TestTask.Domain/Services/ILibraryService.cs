@@ -11,5 +11,11 @@ namespace TestTask.Domain.Services
         Task<BookViewModel> GetBookInfoById(int id);
 
         Task<AuthorViewModel> GetAuthorInfoById(int id);
+
+        Task CreateNewBook(BookViewModel book);
+
+        Task UpdateBook(BookViewModel book);
+
+        Task DeleteBook(int id);
     }
 }

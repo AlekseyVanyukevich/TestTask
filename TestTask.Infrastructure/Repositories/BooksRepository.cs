@@ -22,7 +22,7 @@ namespace TestTask.Infrastructure.Repositories
                 throw new ArgumentException("Must be at least one author");
             }
             await _context.Books.AddAsync(book);
-            // await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             foreach (var author in authors)
             {
                 var existedAuthor = await _context.Authors
@@ -31,14 +31,14 @@ namespace TestTask.Infrastructure.Repositories
                 if (existedAuthor == null)
                 {
                     await _context.Authors.AddAsync(author);
-                    // await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
                 }
 
                 var entity = existedAuthor ?? author;
 
                 await _context.BookAuthors
                     .AddAsync(new BookAuthor {BookId = book.Id, AuthorId = entity.Id});
-                // await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
         }
 
@@ -50,6 +50,35 @@ namespace TestTask.Infrastructure.Repositories
                 .Where(ba => ba.AuthorId == authorId)
                 .Select(ba => ba.Book)
                 .ToListAsync();
+        }
+
+        public async Task Update(Book book, IEnumerable<Author> authors)
+        {
+            if (authors.Count() == 0)
+            {
+                throw new ArgumentException("Must be at least one author");
+            }
+
+            var bookAuthors = _context.BookAuthors.Where(ba => ba.BookId == book.Id);
+            _context.BookAuthors.RemoveRange(bookAuthors);
+            await _context.SaveChangesAsync();
+            foreach (var author in authors)
+            {
+                var existedAuthor = await _context.Authors
+                    .FirstOrDefaultAsync(a => a.Surname == author.Surname);
+
+                if (existedAuthor == null)
+                {
+                    await _context.Authors.AddAsync(author);
+                    await _context.SaveChangesAsync();
+                }
+
+                var entity = existedAuthor ?? author;
+
+                await _context.BookAuthors
+                    .AddAsync(new BookAuthor {BookId = book.Id, AuthorId = entity.Id});
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

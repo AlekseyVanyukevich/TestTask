@@ -8,5 +8,7 @@ namespace TestTask.Domain.Repositories
     {
         Task Add(Book book, IEnumerable<Author> authors);
         Task<IEnumerable<Book>> GetBooksByAuthorId(int authorId);
+
+        Task Update(Book book, IEnumerable<Author> authors);
     }
 }

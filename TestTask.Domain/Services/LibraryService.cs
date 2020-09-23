@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using TestTask.Domain.Models;
 using TestTask.Domain.Repositories;
 using TestTask.Domain.ViewModels;
 
@@ -49,6 +50,30 @@ namespace TestTask.Domain.Services
             var mappedAuthor = _mapper.Map<AuthorViewModel>(author);
             mappedAuthor.Books = _mapper.Map<IEnumerable<BookViewModel>>(books);
             return mappedAuthor;
+        }
+
+        public async Task CreateNewBook(BookViewModel bookModel)
+        {
+            var book = _mapper.Map<Book>(bookModel);
+            var authors = _mapper.Map<IEnumerable<Author>>(bookModel.Authors);
+            await _unitOfWork.Books.Add(book, authors);
+            await _unitOfWork.SaveAsync();
+        }
+
+        public async Task UpdateBook(BookViewModel bookModel)
+        {
+            var book = _mapper.Map<Book>(bookModel);
+            var authors = _mapper.Map<IEnumerable<Author>>(bookModel.Authors);
+            await _unitOfWork.Books.Update(book, authors);
+            await _unitOfWork.SaveAsync();
+        }
+
+        public async Task DeleteBook(int id)
+        {
+            var bookModel = await _unitOfWork.Books.Get(id);
+            var book = _mapper.Map<Book>(bookModel);
+            _unitOfWork.Books.Delete(book);
+            await _unitOfWork.SaveAsync();
         }
     }
 }

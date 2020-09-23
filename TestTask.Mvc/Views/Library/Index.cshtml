@@ -4,6 +4,14 @@
 
 
 <h2>Library</h2>
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
 <table class="table table-striped text-center table-middle">
     <thead>
     <tr>
@@ -36,10 +44,10 @@
             <td>
                 @Html.ActionLink("Edit book", "EditBook", new { id=book.Id }, new { @class = "btn btn-success"}) |
                 @Html.ActionLink("Book details", "BookDetails", new { id=book.Id  }, new { @class = "btn btn-primary"}) |
-                @Html.ActionLink("Delete book", "DeleteBook", new { id = book.Id }, new { @class = "btn btn-danger"})
+                @Html.ActionLink("Delete book", "BookDetails", new { id = book.Id, delete = true }, new { @class = "btn btn-danger"})
             </td>
         </tr>
     }
     </tbody>
 </table>
-@Html.ActionLink("Create new book", "CreateBook",new { @class = "btn btn-primary"} )
+<a href="@Url.Action("CreateBook")" class="btn btn-primary">Create new book</a>

@@ -1,0 +1,30 @@
+﻿@using Microsoft.EntityFrameworkCore.Internal
+@model IEnumerable<AuthorViewModel>
+
+<div class="row">
+    @foreach (var author in @Model)
+    {
+        <div class="col-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">
+                        @Html.DisplayNameFor(x => x.Surname):  @author.Surname
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        @foreach (var book in author.Books)
+                        {
+                            <a class="list-group-item list-group-item-action" href="@Url.Action("BookDetails", "Library", new { id = book.Id})">
+                                #@author.Books.IndexOf(book) @book.Name (@book.Year)
+                            </a>
+                        }
+                    </div>
+                </div>
+                <div class="card-footer">
+                    @Html.ActionLink("Author profile", "AuthorProfile", "Library", new { id = author.Id}, new { @class = "btn btn-primary"});
+                </div>
+            </div>
+        </div>
+    }
+</div>

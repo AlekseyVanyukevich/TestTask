@@ -12,7 +12,7 @@ namespace TestTask.Domain.Attributes
                 return false;
             }
 
-            return DateTime.Now.Year < year;
+            return DateTime.Now.Year >= year;
         }
     }
 }

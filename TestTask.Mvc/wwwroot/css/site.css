@@ -73,3 +73,32 @@ body {
 .table-middle td, .table-middle th {
   vertical-align: middle;
 }
+
+.form-group-delete {
+  position: relative;
+}
+.delete-btn {
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: opacity 0.3s ease;
+}
+
+.delete-btn::after {
+  position: absolute;
+  content: "X";
+  transform: rotate(90deg);
+}
+
+.form-group-delete:hover .delete-btn {
+  opacity: 1;
+}
