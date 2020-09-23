@@ -17,7 +17,7 @@ namespace TestTask.Infrastructure.Repositories
 
         public async Task Add(Book book, IEnumerable<Author> authors)
         {
-            if (authors.Count() == 0)
+            if (!authors.Any())
             {
                 throw new ArgumentException("Must be at least one author");
             }
@@ -54,7 +54,7 @@ namespace TestTask.Infrastructure.Repositories
 
         public async Task Update(Book book, IEnumerable<Author> authors)
         {
-            if (authors.Count() == 0)
+            if (!authors.Any())
             {
                 throw new ArgumentException("Must be at least one author");
             }
@@ -79,6 +79,26 @@ namespace TestTask.Infrastructure.Repositories
                     .AddAsync(new BookAuthor {BookId = book.Id, AuthorId = entity.Id});
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public new async Task<Book> Get(int id)
+        {
+            return await _context.Books
+                .Include(b => b.BookAuthors)
+                .ThenInclude(ba => ba.Author)
+                .Include(b => b.BookAuthors)
+                .ThenInclude(ba => ba.Book)
+                .FirstOrDefaultAsync(b => b.Id == id);
+        }
+        
+        public new async Task<IEnumerable<Book>> GetAll()
+        {
+            return await _context.Books
+                .Include(b => b.BookAuthors)
+                .ThenInclude(ba => ba.Author)
+                .Include(b => b.BookAuthors)
+                .ThenInclude(ba => ba.Book)
+                .ToListAsync();
         }
     }
 }

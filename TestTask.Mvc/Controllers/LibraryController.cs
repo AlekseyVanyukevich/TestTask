@@ -34,6 +34,11 @@ namespace TestTask.Mvc.Controllers
         {
             ViewBag.ToDelete = delete == true;
             var bookInfo = await _libraryService.GetBookInfoById(id);
+            foreach (var author in bookInfo.Authors)
+            {
+                _logger.LogInformation((author == null).ToString());
+            }
+      
             return View(bookInfo);
         }
 
@@ -107,6 +112,12 @@ namespace TestTask.Mvc.Controllers
                 return RedirectToAction("Index");
             }
             return View(book);
+        }
+
+        public async Task<IActionResult> AuthorList()
+        {
+            var authors = await _libraryService.GetAuthors();
+            return View(authors);
         }
     }
 }

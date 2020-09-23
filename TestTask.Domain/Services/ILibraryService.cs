@@ -17,5 +17,7 @@ namespace TestTask.Domain.Services
         Task UpdateBook(BookViewModel book);
 
         Task DeleteBook(int id);
+
+        Task<IEnumerable<AuthorViewModel>> GetAuthors();
     }
 }

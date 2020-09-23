@@ -1,4 +1,6 @@
-﻿namespace TestTask.Domain.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace TestTask.Domain.Models
 {
     public class BookAuthor
     {

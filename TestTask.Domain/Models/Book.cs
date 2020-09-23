@@ -13,8 +13,7 @@ namespace TestTask.Domain.Models
         public string Name { get; set; }
         [Required]
         public int Year { get; set; }
-        [NotMapped]
-        public virtual ICollection<BookAuthor> Authors { get; set; }
+        public virtual ICollection<BookAuthor> BookAuthors { get; set; }
 
         public override string ToString()
         {

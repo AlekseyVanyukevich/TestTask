@@ -11,12 +11,18 @@ namespace TestTask.Domain.Mappers
     {
         public LibraryProfile()
         {
-            CreateMap<Book, BookViewModel>().ReverseMap()
-                .ForMember(x => x.Authors, opt => opt.Ignore());
-            CreateMap<Author, AuthorViewModel>().ReverseMap()
-                .ForMember(x => x.Books, opt => opt.Ignore());
-            CreateMap<IEnumerable<Author>, List<AuthorViewModel>>();
-            CreateMap<IEnumerable<Book>, List<BookViewModel>>();
+            CreateMap<Book, BookViewModel>()
+                .ForMember(x => x.Authors, 
+                    opt => 
+                        opt.MapFrom(b => b.BookAuthors.Select(ba => ba.Author)));
+            CreateMap<Author, AuthorViewModel>()
+                .ForMember(x => x.Books, 
+                    opt => 
+                        opt.MapFrom(a => a.BookAuthors.Select(ba => ba.Book)));
+
+            CreateMap<AuthorViewModel, Author>();
+            CreateMap<BookViewModel, Book>();
         }
     }
+    
 }

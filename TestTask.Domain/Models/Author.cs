@@ -11,8 +11,7 @@ namespace TestTask.Domain.Models
         [StringLength(20)]
         [Required]
         public string Surname { get; set; }
-        [NotMapped]
-        public virtual ICollection<BookAuthor> Books { get; set; }
+        public virtual ICollection<BookAuthor> BookAuthors { get; set; }
 
         public override string ToString()
         {

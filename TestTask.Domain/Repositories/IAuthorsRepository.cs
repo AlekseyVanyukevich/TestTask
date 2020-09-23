@@ -7,5 +7,6 @@ namespace TestTask.Domain.Repositories
     public interface IAuthorsRepository : IRepository<Author>
     {
         Task<IEnumerable<Author>> GetBookAuthors(int bookId);
+        
     }
 }

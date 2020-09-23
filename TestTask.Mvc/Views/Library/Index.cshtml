@@ -1,5 +1,4 @@
 ﻿@using Microsoft.EntityFrameworkCore.Internal
-@using TestTask.Mvc.Extensions
 @model IEnumerable<BookViewModel>
 
 
@@ -18,7 +17,6 @@
         <th scope="col">#</th>
         <th scope="col">@Html.DisplayNameFor(x => x.Name)</th>
         <th scope="col">@Html.DisplayNameFor(x => x.Year)</th>
-        <th scope="col">@Html.DisplayNameFor(x => x.Authors)</th>
         <th scope="col">Actions</th>
     </tr>
     </thead>
@@ -30,18 +28,6 @@
             <td>@Html.DisplayFor(x => book.Name)</td>
             <td>@Html.DisplayFor(x => book.Year)</td>
             <td>
-                <a
-                    data-placement="top"
-                    class="btn btn-info"
-                    role="button"
-                    data-toggle="popover"
-                    data-trigger="focus"
-                    title="@Html.DisplayNameFor(x => book.Authors)"
-                    data-content="@book.Authors.Select(a => a.Surname).JoinWithNewLine()">
-                    Show @Html.DisplayNameFor(x => book.Authors)
-                </a>
-            </td>
-            <td>
                 @Html.ActionLink("Edit book", "EditBook", new { id=book.Id }, new { @class = "btn btn-success"}) |
                 @Html.ActionLink("Book details", "BookDetails", new { id=book.Id  }, new { @class = "btn btn-primary"}) |
                 @Html.ActionLink("Delete book", "BookDetails", new { id = book.Id, delete = true }, new { @class = "btn btn-danger"})
@@ -50,4 +36,7 @@
     }
     </tbody>
 </table>
+
 <a href="@Url.Action("CreateBook")" class="btn btn-primary">Create new book</a>
+<a href="@Url.Action("AuthorList")" class="btn btn-primary">Authors</a>
+

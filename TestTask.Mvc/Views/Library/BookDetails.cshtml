@@ -17,15 +17,15 @@
     <h5 class="card-title">
       @Html.DisplayNameFor(x => Model.Authors):
     </h5>
-    @foreach (var author in @Model.Authors)
-    {
-      <p>
-        <span class="font-weight-bold">
-          @Html.DisplayNameFor(x => author.Surname):
-        </span> @author.Surname
-      </p>
-      @Html.ActionLink("View author", "AuthorProfile", "Library", new {id = author.Id}, new {@class = "btn btn-link"})
-    }
+     @foreach (var author in @Model.Authors)
+     {
+       <p>
+         <span class="font-weight-bold">
+           @Html.DisplayNameFor(x => author.Surname):
+         </span> @author.Surname
+       </p>
+       @Html.ActionLink("View author", "AuthorProfile", "Library", new {id = author.Id}, new {@class = "btn btn-link"})
+     }
   </div>
   <div class="card-footer d-flex justify-content-between">
     <a href="@Url.Action("Index")" class="btn btn-primary d-inline-flex align-items-center">

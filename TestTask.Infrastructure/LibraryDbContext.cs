@@ -18,11 +18,11 @@ namespace TestTask.Infrastructure
                 .HasKey(ba => new { ba.BookId, ba.AuthorId });  
             modelBuilder.Entity<BookAuthor>()
                 .HasOne(ba => ba.Book)
-                .WithMany(b => b.Authors)
+                .WithMany(b => b.BookAuthors)
                 .HasForeignKey(bc => bc.BookId);  
             modelBuilder.Entity<BookAuthor>()
                 .HasOne(bc => bc.Author)
-                .WithMany(c => c.Books)
+                .WithMany(c => c.BookAuthors)
                 .HasForeignKey(bc => bc.AuthorId);
 
         }

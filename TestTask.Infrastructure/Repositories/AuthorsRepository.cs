@@ -22,5 +22,25 @@ namespace TestTask.Infrastructure.Repositories
                 .Select(ba => ba.Author)
                 .ToListAsync();
         }
+
+        public new async Task<Author> Get(int id)
+        {
+            return await _context.Authors
+                .Include(b => b.BookAuthors)
+                .ThenInclude(ba => ba.Author)
+                .Include(b => b.BookAuthors)
+                .ThenInclude(ba => ba.Book)
+                .FirstOrDefaultAsync(a => a.Id == id);
+        }
+
+        public new async Task<IEnumerable<Author>> GetAll()
+        {
+            return await _context.Authors
+                .Include(b => b.BookAuthors)
+                .ThenInclude(ba => ba.Author)
+                .Include(b => b.BookAuthors)
+                .ThenInclude(ba => ba.Book)
+                .ToListAsync();
+        }
     }
 }
