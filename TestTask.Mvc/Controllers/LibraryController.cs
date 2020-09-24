@@ -95,18 +95,17 @@ namespace TestTask.Mvc.Controllers
                     if (book.Id == 0)
                     {
                         await _libraryService.CreateNewBook(book);
-                        TempData["Success"] = "User created successfully";
+                        TempData["Success"] = "Book created successfully";
                     }
                     else
                     {
                         await _libraryService.UpdateBook(book);
-                        TempData["Success"] = "User updated successfully";
+                        TempData["Success"] = "Book updated successfully";
                     }
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogInformation(ex.Message);
-                    TempData["Error"] = "Failed to submit";
+                    TempData["Error"] = ex.Message;
                 }
 
                 return RedirectToAction("Index");

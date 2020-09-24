@@ -63,6 +63,7 @@ namespace TestTask.Infrastructure.Repositories
 
             var bookAuthors = Context.BookAuthors.Where(ba => ba.BookId == book.Id);
             Context.BookAuthors.RemoveRange(bookAuthors);
+            Context.Update(book);
             await Context.SaveChangesAsync();
             foreach (var author in authors)
             {
