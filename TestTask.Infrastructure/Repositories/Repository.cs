@@ -7,35 +7,34 @@ namespace TestTask.Infrastructure.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        protected readonly LibraryDbContext _context;
-
-        public Repository(LibraryDbContext context)
+        protected internal readonly DbContext Context;
+        public Repository(DbContext context)
         {
-            _context = context;
+            Context = context;
         }
         public async Task<T> Get(int id)
         {
-            return await _context.Set<T>().FindAsync(id);
+            return await Context.Set<T>().FindAsync(id);
         }
 
         public async Task<IEnumerable<T>> GetAll()
         {
-            return await _context.Set<T>().ToListAsync();
+            return await Context.Set<T>().ToListAsync();
         }
 
         public async Task Add(T entity)
         {
-            await _context.Set<T>().AddAsync(entity);
+            await Context.Set<T>().AddAsync(entity);
         }
 
         public void Delete(T entity)
         {
-            _context.Set<T>().Remove(entity);
+            Context.Set<T>().Remove(entity);
         }
 
         public void Update(T entity)
         {
-            _context.Set<T>().Update(entity);
+            Context.Set<T>().Update(entity);
         }
     }
 }

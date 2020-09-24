@@ -11,8 +11,10 @@ namespace TestTask.Infrastructure.Repositories
 {
     public class BooksRepository : Repository<Book>, IBooksRepository
     {
+        private new readonly LibraryDbContext Context;
         public BooksRepository(LibraryDbContext context) : base(context)
         {
+            Context = context;
         }
 
         public async Task Add(Book book, IEnumerable<Author> authors)
@@ -21,30 +23,30 @@ namespace TestTask.Infrastructure.Repositories
             {
                 throw new ArgumentException("Must be at least one author");
             }
-            await _context.Books.AddAsync(book);
-            await _context.SaveChangesAsync();
+            await Context.Books.AddAsync(book);
+            await Context.SaveChangesAsync();
             foreach (var author in authors)
             {
-                var existedAuthor = await _context.Authors
+                var existedAuthor = await Context.Authors
                     .FirstOrDefaultAsync(a => a.Surname == author.Surname);
 
                 if (existedAuthor == null)
                 {
-                    await _context.Authors.AddAsync(author);
-                    await _context.SaveChangesAsync();
+                    await Context.Authors.AddAsync(author);
+                    await Context.SaveChangesAsync();
                 }
 
                 var entity = existedAuthor ?? author;
 
-                await _context.BookAuthors
+                await Context.BookAuthors
                     .AddAsync(new BookAuthor {BookId = book.Id, AuthorId = entity.Id});
-                await _context.SaveChangesAsync();
+                await Context.SaveChangesAsync();
             }
         }
 
         public async Task<IEnumerable<Book>> GetBooksByAuthorId(int authorId)
         {
-            return await _context.BookAuthors
+            return await Context.BookAuthors
                 .Include(ba => ba.Book)
                 .Include(ba => ba.Author)
                 .Where(ba => ba.AuthorId == authorId)
@@ -59,31 +61,31 @@ namespace TestTask.Infrastructure.Repositories
                 throw new ArgumentException("Must be at least one author");
             }
 
-            var bookAuthors = _context.BookAuthors.Where(ba => ba.BookId == book.Id);
-            _context.BookAuthors.RemoveRange(bookAuthors);
-            await _context.SaveChangesAsync();
+            var bookAuthors = Context.BookAuthors.Where(ba => ba.BookId == book.Id);
+            Context.BookAuthors.RemoveRange(bookAuthors);
+            await Context.SaveChangesAsync();
             foreach (var author in authors)
             {
-                var existedAuthor = await _context.Authors
+                var existedAuthor = await Context.Authors
                     .FirstOrDefaultAsync(a => a.Surname == author.Surname);
 
                 if (existedAuthor == null)
                 {
-                    await _context.Authors.AddAsync(author);
-                    await _context.SaveChangesAsync();
+                    await Context.Authors.AddAsync(author);
+                    await Context.SaveChangesAsync();
                 }
 
                 var entity = existedAuthor ?? author;
 
-                await _context.BookAuthors
+                await Context.BookAuthors
                     .AddAsync(new BookAuthor {BookId = book.Id, AuthorId = entity.Id});
-                await _context.SaveChangesAsync();
+                await Context.SaveChangesAsync();
             }
         }
 
         public new async Task<Book> Get(int id)
         {
-            return await _context.Books
+            return await Context.Books
                 .Include(b => b.BookAuthors)
                 .ThenInclude(ba => ba.Author)
                 .Include(b => b.BookAuthors)
@@ -93,7 +95,7 @@ namespace TestTask.Infrastructure.Repositories
         
         public new async Task<IEnumerable<Book>> GetAll()
         {
-            return await _context.Books
+            return await Context.Books
                 .Include(b => b.BookAuthors)
                 .ThenInclude(ba => ba.Author)
                 .Include(b => b.BookAuthors)

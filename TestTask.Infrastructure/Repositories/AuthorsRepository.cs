@@ -9,13 +9,15 @@ namespace TestTask.Infrastructure.Repositories
 {
     public class AuthorsRepository : Repository<Author>, IAuthorsRepository
     {
+        private new readonly LibraryDbContext Context;
         public AuthorsRepository(LibraryDbContext context) : base(context)
         {
+            Context = context;
         }
 
         public async Task<IEnumerable<Author>> GetBookAuthors(int bookId)
         {
-            return await _context.BookAuthors
+            return await Context.BookAuthors
                 .Include(ba => ba.Author)
                 .Include(ba => ba.Book)
                 .Where(ba => ba.BookId == bookId)
@@ -25,7 +27,7 @@ namespace TestTask.Infrastructure.Repositories
 
         public new async Task<Author> Get(int id)
         {
-            return await _context.Authors
+            return await Context.Authors
                 .Include(b => b.BookAuthors)
                 .ThenInclude(ba => ba.Author)
                 .Include(b => b.BookAuthors)
@@ -35,7 +37,7 @@ namespace TestTask.Infrastructure.Repositories
 
         public new async Task<IEnumerable<Author>> GetAll()
         {
-            return await _context.Authors
+            return await Context.Authors
                 .Include(b => b.BookAuthors)
                 .ThenInclude(ba => ba.Author)
                 .Include(b => b.BookAuthors)
