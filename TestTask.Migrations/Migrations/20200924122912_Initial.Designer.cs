@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestTask.Infrastructure;
 
-namespace TestTask.Infrastructure.Migrations
+namespace TestTask.Migrations.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    [Migration("20200921145623_RemoveUnnecessaryAttribute")]
-    partial class RemoveUnnecessaryAttribute
+    [Migration("20200924122912_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -75,13 +75,13 @@ namespace TestTask.Infrastructure.Migrations
             modelBuilder.Entity("TestTask.Domain.Models.BookAuthor", b =>
                 {
                     b.HasOne("TestTask.Domain.Models.Author", "Author")
-                        .WithMany("Books")
+                        .WithMany("BookAuthors")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("TestTask.Domain.Models.Book", "Book")
-                        .WithMany("Authors")
+                        .WithMany("BookAuthors")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
