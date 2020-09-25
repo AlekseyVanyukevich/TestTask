@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 using TestTask.Domain.Attributes;
 
-namespace TestTask.Domain.ViewModels
+namespace TestTask.Domain.ViewModels.Author
 {
-    public class AuthorViewModel
+    public class AuthorFormModel
     {
         public int Id { get; set; }
         [StringLength(15, ErrorMessage = "Author's name length must be less than 15")]
@@ -18,14 +18,14 @@ namespace TestTask.Domain.ViewModels
         public string Surname { get; set; }
         
         [Required(ErrorMessage = "Birthday date is required")]
-        [DataType(DataType.Date)]
         [BirthDate]
+        [Display(Name = "Birthday date")]
         public DateTime BirthDate { get; set; }
         
-        [ImageUrl]
-        public string Image { get; set; }
+        // [ImagePath]
+        [AllowedExtensions(new[] {".png", ".jpg"})]
+        [Display(Name = "Image")]
+        public IFormFile Image { get; set; }
         
-        [Display(Name = "Books")]
-        public IEnumerable<BookViewModel> Books { get; set; }
     }
 }

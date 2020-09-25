@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 using TestTask.Domain.Data;
 using TestTask.Domain.Services;
 using TestTask.Domain.ViewModels;
+using TestTask.Domain.ViewModels.Author;
+using TestTask.Domain.ViewModels.Book;
 using TestTask.Mvc.ResponseModels;
 
 namespace TestTask.Mvc.Controllers
@@ -34,7 +36,7 @@ namespace TestTask.Mvc.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<IActionResult> EditBook(BookViewModel bookModel)
+        public async Task<IActionResult> EditBook(BookModel bookModel)
         {
             return RedirectToAction("Index");
         }
@@ -58,7 +60,7 @@ namespace TestTask.Mvc.Controllers
             try
             {
                 await _libraryService.DeleteBook(id);
-                TempData["Alert"] = new AlertViewModel
+                TempData["Alert"] = new AlertModel
                 {
                     Content = "Book deleted successfully",
                     Type = AlertType.Success
@@ -66,7 +68,7 @@ namespace TestTask.Mvc.Controllers
             }
             catch
             {
-                TempData["Alert"] = new AlertViewModel
+                TempData["Alert"] = new AlertModel
                 {
                     Content = "Failed to delete book",
                     Type = AlertType.Danger
@@ -78,17 +80,17 @@ namespace TestTask.Mvc.Controllers
 
         public IActionResult CreateBook()
         {
-            return View("CreateEditBook", new BookViewModel());
+            return View("CreateEditBook", new BookModel());
         }
 
-        public IActionResult CreateEditBook(BookViewModel bookModel)
+        public IActionResult CreateEditBook(BookModel bookModel)
         {
             return View(bookModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateBook(BookViewModel bookModel)
+        public IActionResult CreateBook(BookModel bookModel)
         {
             return RedirectToAction("Index");
         }
@@ -142,7 +144,7 @@ namespace TestTask.Mvc.Controllers
         {
             var authors = await _libraryService.GetAuthors();
             var authorsOnPage = authors.Skip((pageIndex - 1) * pageSize).Take(pageSize);
-            var paginatedList = new PaginatedResponseModel<AuthorViewModel>(
+            var paginatedList = new PaginatedResponseModel<AuthorModel>(
                 pageIndex, pageSize, authors.Count(), authorsOnPage);
             
             return View(paginatedList);
@@ -152,23 +154,33 @@ namespace TestTask.Mvc.Controllers
             var authorInfo = await _libraryService.GetAuthorInfoById(id);
             return View(authorInfo);
         }
-        public async Task<IActionResult> CreateEditAuthor(AuthorViewModel authorModel)
+        public async Task<IActionResult> CreateEditAuthor(AuthorModel authorModel)
         {
             return View(authorModel);
         }
 
         public IActionResult CreateAuthor()
         {
-            return View("CreateEditAuthor", new AuthorViewModel());
+            return View("CreateEditAuthor", new AuthorModel());
         }
 
-        public IActionResult EditAuthor(AuthorViewModel authorModel)
+        public IActionResult EditAuthor(AuthorModel authorModel)
         {
             return View("CreateEditAuthor", authorModel);
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateAuthor()
+        public IActionResult CreateAuthor(AuthorFormModel authorForm)
+        {
+            return RedirectToAction("AuthorList");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditAuthor(AuthorFormModel authorForm)
+        {
+            return RedirectToAction("AuthorProfile", new { id = authorForm.Id});
+        }
     }
 }

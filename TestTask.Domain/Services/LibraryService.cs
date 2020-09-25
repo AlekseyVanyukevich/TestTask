@@ -5,6 +5,8 @@ using AutoMapper;
 using TestTask.Domain.Models;
 using TestTask.Domain.Repositories;
 using TestTask.Domain.ViewModels;
+using TestTask.Domain.ViewModels.Author;
+using TestTask.Domain.ViewModels.Book;
 
 namespace TestTask.Domain.Services
 {
@@ -19,28 +21,28 @@ namespace TestTask.Domain.Services
             _mapper = mapper;
         }
         
-        public async Task<IEnumerable<BookViewModel>> GetLibraryBooks()
+        public async Task<IEnumerable<BookModel>> GetLibraryBooks()
         {
             var books = await _unitOfWork.Books.GetAll();
-            var mappedBooks = _mapper.Map<IEnumerable<BookViewModel>>(books);
+            var mappedBooks = _mapper.Map<IEnumerable<BookModel>>(books);
             return mappedBooks;
         }
 
-        public async Task<BookViewModel> GetBookInfoById(int id)
+        public async Task<BookModel> GetBookInfoById(int id)
         {
             var book = await _unitOfWork.Books.Get(id);
-            var mappedBook = _mapper.Map<BookViewModel>(book);
+            var mappedBook = _mapper.Map<BookModel>(book);
             return mappedBook;
         }
 
-        public async Task<AuthorViewModel> GetAuthorInfoById(int id)
+        public async Task<AuthorModel> GetAuthorInfoById(int id)
         {
             var author = await _unitOfWork.Authors.Get(id);
-            var mappedAuthor = _mapper.Map<AuthorViewModel>(author);
+            var mappedAuthor = _mapper.Map<AuthorModel>(author);
             return mappedAuthor;
         }
 
-        public async Task CreateNewBook(BookViewModel bookModel)
+        public async Task CreateNewBook(BookModel bookModel)
         {
             var book = _mapper.Map<Book>(bookModel);
             var authors = _mapper.Map<IEnumerable<Author>>(bookModel.Authors);
@@ -48,7 +50,7 @@ namespace TestTask.Domain.Services
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task UpdateBook(BookViewModel bookModel)
+        public async Task UpdateBook(BookModel bookModel)
         {
             var book = _mapper.Map<Book>(bookModel);
             var authors = _mapper.Map<IEnumerable<Author>>(bookModel.Authors);
@@ -64,10 +66,10 @@ namespace TestTask.Domain.Services
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task<IEnumerable<AuthorViewModel>> GetAuthors()
+        public async Task<IEnumerable<AuthorModel>> GetAuthors()
         {
             var authors = await _unitOfWork.Authors.GetAll();
-            var mappedAuthors = _mapper.Map<IEnumerable<AuthorViewModel>>(authors);
+            var mappedAuthors = _mapper.Map<IEnumerable<AuthorModel>>(authors);
             return mappedAuthors;
         }
     }

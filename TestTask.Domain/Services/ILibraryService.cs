@@ -1,23 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using TestTask.Domain.ViewModels;
+using TestTask.Domain.ViewModels.Author;
+using TestTask.Domain.ViewModels.Book;
 
 namespace TestTask.Domain.Services
 {
     public interface ILibraryService
     {
-        Task<IEnumerable<BookViewModel>> GetLibraryBooks();
+        Task<IEnumerable<BookModel>> GetLibraryBooks();
 
-        Task<BookViewModel> GetBookInfoById(int id);
+        Task<BookModel> GetBookInfoById(int id);
 
-        Task<AuthorViewModel> GetAuthorInfoById(int id);
+        Task<AuthorModel> GetAuthorInfoById(int id);
 
-        Task CreateNewBook(BookViewModel book);
+        Task CreateNewBook(BookModel book);
 
-        Task UpdateBook(BookViewModel book);
+        Task UpdateBook(BookModel book);
 
         Task DeleteBook(int id);
 
-        Task<IEnumerable<AuthorViewModel>> GetAuthors();
+        Task<IEnumerable<AuthorModel>> GetAuthors();
     }
 }

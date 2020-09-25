@@ -4,15 +4,15 @@ using System.Net;
 
 namespace TestTask.Domain.Attributes
 {
-    public class ImageUrlAttribute : ValidationAttribute
+    public class ImagePathAttribute : ValidationAttribute
     {
         public override bool IsValid(object value)
         {
-            if (!(value is string url))
+            if (!(value is string path))
             {
                 return false;
             }
-            var req = WebRequest.Create(url);
+            var req = WebRequest.Create(path);
             req.Method = "HEAD";
             using var resp = req.GetResponse();
             return resp.ContentType.ToLower(CultureInfo.InvariantCulture)

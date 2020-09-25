@@ -4,6 +4,8 @@ using System.Linq;
 using AutoMapper;
 using TestTask.Domain.Models;
 using TestTask.Domain.ViewModels;
+using TestTask.Domain.ViewModels.Author;
+using TestTask.Domain.ViewModels.Book;
 
 namespace TestTask.Domain.Mappers
 {
@@ -11,17 +13,17 @@ namespace TestTask.Domain.Mappers
     {
         public LibraryProfile()
         {
-            CreateMap<Book, BookViewModel>()
+            CreateMap<Book, BookModel>()
                 .ForMember(x => x.Authors, 
                     opt => 
                         opt.MapFrom(b => b.BookAuthors.Select(ba => ba.Author)));
-            CreateMap<Author, AuthorViewModel>()
+            CreateMap<Author, AuthorModel>()
                 .ForMember(x => x.Books, 
                     opt => 
                         opt.MapFrom(a => a.BookAuthors.Select(ba => ba.Book)));
 
-            CreateMap<AuthorViewModel, Author>();
-            CreateMap<BookViewModel, Book>();
+            CreateMap<AuthorModel, Author>();
+            CreateMap<BookModel, Book>();
         }
     }
     
