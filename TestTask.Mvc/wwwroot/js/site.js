@@ -21,5 +21,8 @@ $(document).ready(function (){
         $fields.find('.delete-btn').click(deleteFn);
     });
     $('.delete-btn').click(deleteFn);
+    $('.alert').click(function ({ target }) {
+        console.log(this);
+    });
 });
 

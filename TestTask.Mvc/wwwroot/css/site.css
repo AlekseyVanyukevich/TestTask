@@ -102,3 +102,17 @@ body {
 .form-group-delete:hover .delete-btn {
   opacity: 1;
 }
+
+.alert {
+  position: relative;
+}
+
+.alert-close {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 20px;
+  right: 20px;
+  border-radius: 50%;
+  padding: 3px;
+}

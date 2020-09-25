@@ -1,0 +1,31 @@
+﻿@model AuthorViewModel
+<a href="@Url.Action("Index")" class="btn btn-primary d-inline-flex align-items-center" style="margin-bottom: 20px">
+  <svg style="margin-right: 7px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path d="M10.53 5.03a.75.75 0 10-1.06-1.06l-6.25 6.25a.75.75 0 000 1.06l6.25 6.25a.75.75 0 101.06-1.06L5.56 11.5H17a3.248 3.248 0 013.25 3.248v4.502a.75.75 0 001.5 0v-4.502A4.748 4.748 0 0017 10H5.56l4.97-4.97z"></path></svg>
+  Back
+</a>
+
+<form asp-controller="Library" asp-action="@(Model?.Id != 0 ? "EditAuthor" : "CreateAuthor")" method="post">
+  @if (Model?.Id != 0)
+  {
+    <p><span class="font-weight-bold" style="margin-right: 10px">@Html.DisplayNameFor(x => x.Id):</span>@Model?.Id</p>
+    <input asp-for="Id" type="hidden">
+  }
+  <div class="form-group">
+    <label asp-for="Name"></label>
+    <input class="form-control" asp-for="Name" placeholder="Enter name">
+    <span asp-validation-for="Name" class="text-danger"></span>
+  </div>
+  <div class="form-group">
+    <label asp-for="Surname"></label>
+    <input class="form-control" asp-for="Surname" placeholder="Enter year of publication">
+    <span asp-validation-for="Surname" class="text-danger"></span>
+  </div>
+  <div class="form-group">
+    <label asp-for="Surname"></label>
+    <input class="form-control" asp-for="BirthDate" placeholder="Enter year of publication">
+    <span asp-validation-for="BirthDate" class="text-danger"></span>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+

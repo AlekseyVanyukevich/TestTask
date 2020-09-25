@@ -6,7 +6,6 @@
           @Html.DisplayNameFor(x => Model.Name):
           @Model.Name
         </h3>
-
   </div>
   <div class="card-body">
     <p>
@@ -22,9 +21,9 @@
        <p>
          <span class="font-weight-bold">
            @Html.DisplayNameFor(x => author.Surname):
-         </span> @author.Surname
+         </span> @Html.ActionLink(author.Surname, "AuthorProfile", "Library", new {id = author.Id}, new {@class = "btn btn-link"})
        </p>
-       @Html.ActionLink("View author", "AuthorProfile", "Library", new {id = author.Id}, new {@class = "btn btn-link"})
+       
      }
   </div>
   <div class="card-footer d-flex justify-content-between">

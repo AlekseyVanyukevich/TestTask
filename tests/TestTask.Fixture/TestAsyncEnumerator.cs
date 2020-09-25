@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace TestTask.Infrastructure.Tests
+namespace TestTask.Fixture
 {
     internal class TestAsyncEnumerator<T> : IAsyncEnumerator<T>
     {

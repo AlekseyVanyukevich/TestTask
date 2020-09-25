@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TestTask.Domain.Attributes
 {
-    public class ValidYearAttribute : ValidationAttribute
+    public class YearNotMoreThanNowAttribute : ValidationAttribute
     {
         public override bool IsValid(object value)
         {

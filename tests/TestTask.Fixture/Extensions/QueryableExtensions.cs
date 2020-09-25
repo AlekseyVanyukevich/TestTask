@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 
-namespace TestTask.Infrastructure.Tests.Extensions
+namespace TestTask.Fixture.Extensions
 {
     public static class QueryableExtensions
     {

@@ -4,8 +4,7 @@
   Back
 </a>
 
-<form asp-controller="Library" asp-action="CreateEditBook" method="post">
-  @Html.AntiForgeryToken()
+<form asp-controller="Library" asp-action="@(Model?.Id == null ? "CreateBook" : "EditBook")" method="post">
   @if (Model?.Id != 0)
   {
     <p><span class="font-weight-bold" style="margin-right: 10px">@Html.DisplayNameFor(x => x.Id):</span>@Model?.Id</p>

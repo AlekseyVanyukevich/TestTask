@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Moq;
-using TestTask.Domain.Models;
+using TestTask.Fixture.Extensions;
 using TestTask.Infrastructure.Repositories;
-using TestTask.Infrastructure.Tests.Extensions;
 using Xunit;
 
 namespace TestTask.Infrastructure.Tests

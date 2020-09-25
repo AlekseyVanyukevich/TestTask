@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\TestTask.Infrastructure\TestTask.Infrastructure.csproj" />
+    <ProjectReference Include="..\TestTask.Fixture\TestTask.Fixture.csproj" />
   </ItemGroup>
 
 </Project>

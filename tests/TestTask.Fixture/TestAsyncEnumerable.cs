@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 
-namespace TestTask.Infrastructure.Tests
+namespace TestTask.Fixture
 {
     internal class TestAsyncEnumerable<T> : EnumerableQuery<T>, IAsyncEnumerable<T>
     {

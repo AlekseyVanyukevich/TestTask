@@ -14,10 +14,6 @@ namespace TestTask.Domain.Models
         [Required]
         public int Year { get; set; }
         public virtual ICollection<BookAuthor> BookAuthors { get; set; }
-
-        public override string ToString()
-        {
-            return $"{Id}. {Name}";
-        }
+        
     }
 }

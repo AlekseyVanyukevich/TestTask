@@ -1,0 +1,9 @@
+﻿@model AlertViewModel
+
+@if (Model != null)
+{
+    <div class="alert alert-@Model.Type.ToString().ToLower()">
+        <button class="btn btn-outline-danger alert-close">X</button>
+        @Model.Content
+    </div>
+}
