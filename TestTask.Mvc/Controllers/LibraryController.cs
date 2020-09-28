@@ -50,19 +50,19 @@ namespace TestTask.Mvc.Controllers
             try
             {
                 await _libraryService.DeleteBook(id);
-                TempData["Alert"] = new AlertModel
+                TempData.Put("Alert", new AlertModel
                 {
                     Content = "Book deleted successfully",
                     Type = AlertType.Success
-                };
+                });
             }
             catch
             {
-                TempData["Alert"] = new AlertModel
+                TempData.Put("Alert", new AlertModel
                 {
                     Content = "Failed to delete book",
                     Type = AlertType.Danger
-                };
+                });
             }
 
             return RedirectToAction("Index");
@@ -118,15 +118,39 @@ namespace TestTask.Mvc.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<IActionResult> EditBook(BookModel bookModel)
+        public async Task<IActionResult> EditBook(BookFormModel bookFormModel)
         {
-            
-            return RedirectToAction("Index");
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Authors = await GetSelectedList(bookFormModel);
+                return View("CreateEditBook", bookFormModel);
+            }
+
+            try
+            {
+                await _libraryService.UpdateBook(bookFormModel);
+                TempData.Put("Alert", new AlertModel
+                {
+                    Content = "Book updated successfully",
+                    Type = AlertType.Success
+                });
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Authors = await GetSelectedList(bookFormModel);
+                ViewBag.Alert = new AlertModel
+                {
+                    Content = ex.Message,
+                    Type = AlertType.Danger
+                };
+                return View("CreateEditBook", bookFormModel);
+            }
         }
         
 
 
-        public async Task<IActionResult> AuthorList(int pageIndex = 1, int pageSize = 10)
+        public async Task<IActionResult> AuthorList(int pageIndex = 1, int pageSize = 4)
         {
             var authors = await _libraryService.GetAuthors();
             var authorsOnPage = authors.Skip((pageIndex - 1) * pageSize).Take(pageSize);

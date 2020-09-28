@@ -18,7 +18,6 @@ namespace TestTask.Domain.ViewModels.Book
         public int Year { get; set; }
         [MustHaveOneElement(ErrorMessage = "At least one author is required")]
         [Display(Name = "Authors")]
-        
         public IEnumerable<int> AuthorIds { get; set; }
     }
 }

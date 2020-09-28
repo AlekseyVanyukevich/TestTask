@@ -17,7 +17,7 @@ namespace TestTask.Domain.Services
 
         Task CreateNewBook(BookFormModel bookFormModel);
 
-        Task UpdateBook(BookModel book);
+        Task UpdateBook(BookFormModel bookFormModel);
         
         Task DeleteBook(int id);
 

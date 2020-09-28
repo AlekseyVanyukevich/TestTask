@@ -49,11 +49,10 @@ namespace TestTask.Domain.Services
             await _unitOfWork.SaveAsync();
         }
         
-        public async Task UpdateBook(BookModel bookModel)
+        public async Task UpdateBook(BookFormModel bookFormModel)
         {
-            var book = _mapper.Map<Book>(bookModel);
-            var authors = _mapper.Map<IEnumerable<Author>>(bookModel.Authors);
-            await _unitOfWork.Books.Update(book, authors);
+            var book = _mapper.Map<Book>(bookFormModel);
+            await _unitOfWork.Books.UpdateBook(book);
             await _unitOfWork.SaveAsync();
         }
 
