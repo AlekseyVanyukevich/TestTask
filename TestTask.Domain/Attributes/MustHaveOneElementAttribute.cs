@@ -9,12 +9,8 @@ namespace TestTask.Domain.Attributes
     {
         public override bool IsValid(object value)
         {
-            if (value is IEnumerable<object> enumerable)
-            {
-                return enumerable.Any();
-            }
-
-            return false;
+            if (!(value is IEnumerable enumerable)) return false;
+            return enumerable.Cast<object?>().Any();
         }
     }
 }

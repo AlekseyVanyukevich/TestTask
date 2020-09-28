@@ -42,14 +42,13 @@ namespace TestTask.Domain.Services
             return mappedAuthor;
         }
 
-        public async Task CreateNewBook(BookModel bookModel)
+        public async Task CreateNewBook(BookFormModel bookFormModel)
         {
-            var book = _mapper.Map<Book>(bookModel);
-            var authors = _mapper.Map<IEnumerable<Author>>(bookModel.Authors);
-            await _unitOfWork.Books.Add(book, authors);
+            var book = _mapper.Map<Book>(bookFormModel);
+            await _unitOfWork.Books.Add(book);
             await _unitOfWork.SaveAsync();
         }
-
+        
         public async Task UpdateBook(BookModel bookModel)
         {
             var book = _mapper.Map<Book>(bookModel);
@@ -71,6 +70,18 @@ namespace TestTask.Domain.Services
             var authors = await _unitOfWork.Authors.GetAll();
             var mappedAuthors = _mapper.Map<IEnumerable<AuthorModel>>(authors);
             return mappedAuthors;
+        }
+
+        public async Task AddAuthor(AuthorFormModel authorFormModel)
+        {
+            var author = _mapper.Map<Author>(authorFormModel);
+            await _unitOfWork.Authors.Add(author);
+            await _unitOfWork.SaveAsync();
+        }
+
+        public BookFormModel CreateBookFormModel(BookModel bookModel)
+        {
+            return _mapper.Map<BookFormModel>(bookModel);
         }
     }
 }

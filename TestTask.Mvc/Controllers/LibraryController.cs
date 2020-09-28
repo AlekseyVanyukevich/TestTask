@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using TestTask.Domain.Data;
 using TestTask.Domain.Services;
 using TestTask.Domain.ViewModels;
 using TestTask.Domain.ViewModels.Author;
 using TestTask.Domain.ViewModels.Book;
+using TestTask.Mvc.Extensions;
 using TestTask.Mvc.ResponseModels;
 
 namespace TestTask.Mvc.Controllers
@@ -28,19 +31,6 @@ namespace TestTask.Mvc.Controllers
             return View(inventory);
         }
 
-        public async Task<IActionResult> EditBook(int id)
-        {
-            var book = await _libraryService.GetBookInfoById(id);
-            return View("CreateEditBook", book);
-        }
-
-        [ValidateAntiForgeryToken]
-        [HttpPost]
-        public async Task<IActionResult> EditBook(BookModel bookModel)
-        {
-            return RedirectToAction("Index");
-        }
-        
         public async Task<IActionResult> BookDetails(int id, bool? delete)
         {
             ViewBag.ToDelete = delete == true;
@@ -78,65 +68,61 @@ namespace TestTask.Mvc.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult CreateBook()
+        public async Task<IActionResult> CreateBook()
         {
-            return View("CreateEditBook", new BookModel());
+            var formModel = new BookFormModel();
+            ViewBag.Authors = await GetSelectedList(formModel);
+            return View("CreateEditBook", formModel);
         }
 
-        public IActionResult CreateEditBook(BookModel bookModel)
+        public async Task<IActionResult> EditBook(int id)
         {
-            return View(bookModel);
+            var book = await _libraryService.GetBookInfoById(id);
+            var formModel = _libraryService.CreateBookFormModel(book);
+            ViewBag.Authors = await GetSelectedList(formModel);
+            return View("CreateEditBook", formModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateBook(BookModel bookModel)
+        public async Task<IActionResult> CreateBook(BookFormModel bookFormModel)
         {
-            return RedirectToAction("Index");
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Authors = await GetSelectedList(bookFormModel);
+                return View("CreateEditBook", bookFormModel);
+            }
+
+            try
+            {
+                await _libraryService.CreateNewBook(bookFormModel);
+                TempData.Put("Alert", new AlertModel
+                {
+                    Content = "Book created successfully",
+                    Type = AlertType.Success
+                });
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Authors = await GetSelectedList(bookFormModel);
+                ViewBag.Alert = new AlertModel
+                {
+                    Content = ex.Message,
+                    Type = AlertType.Danger
+                };
+                return View("CreateEditBook", bookFormModel);
+            }
         }
         
-        // public async Task<IActionResult> CreateEditBook(BookViewModel book, string[] author)
-        // {
-        //     if (author.Length > 0)
-        //     {
-        //         var newAuthors = author.Select(surname => new AuthorViewModel {Surname = surname});
-        //         if (book.Authors?.Any() == true)
-        //         {
-        //             foreach (var a in newAuthors)
-        //             {
-        //                 book.Authors.Append(a);
-        //             }
-        //         }
-        //         else
-        //         {
-        //             book.Authors = newAuthors;
-        //         }
-        //     }
-        //     if (ModelState.IsValid)
-        //     {
-        //         
-        //         try
-        //         {
-        //             if (book.Id == 0)
-        //             {
-        //                 await _libraryService.CreateNewBook(book);
-        //                 TempData["Alert"] = "Book created successfully";
-        //             }
-        //             else
-        //             {
-        //                 await _libraryService.UpdateBook(book);
-        //                 TempData["Success"] = "Book updated successfully";
-        //             }
-        //         }
-        //         catch (Exception ex)
-        //         {
-        //             TempData["Error"] = ex.Message;
-        //         }
-        //
-        //         return RedirectToAction("Index");
-        //     }
-        //     return View(book);
-        // }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<IActionResult> EditBook(BookModel bookModel)
+        {
+            
+            return RedirectToAction("Index");
+        }
         
 
 
@@ -154,26 +140,50 @@ namespace TestTask.Mvc.Controllers
             var authorInfo = await _libraryService.GetAuthorInfoById(id);
             return View(authorInfo);
         }
-        public async Task<IActionResult> CreateEditAuthor(AuthorModel authorModel)
+        public async Task<IActionResult> CreateEditAuthor(AuthorFormModel authorFormModel)
         {
-            return View(authorModel);
+            return View(authorFormModel);
         }
 
         public IActionResult CreateAuthor()
         {
-            return View("CreateEditAuthor", new AuthorModel());
+            return View("CreateEditAuthor", new AuthorFormModel());
         }
 
         public IActionResult EditAuthor(AuthorModel authorModel)
         {
-            return View("CreateEditAuthor", authorModel);
+            return View("CreateEditAuthor", new AuthorFormModel());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateAuthor(AuthorFormModel authorForm)
+        public async Task<IActionResult> CreateAuthor(AuthorFormModel authorForm)
         {
-            return RedirectToAction("AuthorList");
+            if (!ModelState.IsValid)
+            {
+                return View("CreateEditAuthor", authorForm);
+            }
+
+            try
+            {
+                await _libraryService.AddAuthor(authorForm);
+                var alert = new AlertModel
+                {
+                    Content = "Author created successfully",
+                    Type = AlertType.Success
+                };
+                TempData.Put("Alert", alert);
+                return RedirectToAction("AuthorList");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Alert = new AlertModel
+                {
+                    Content = ex.Message,
+                    Type = AlertType.Danger
+                };
+                return View("CreateEditAuthor", authorForm);
+            }
         }
 
         [HttpPost]
@@ -181,6 +191,18 @@ namespace TestTask.Mvc.Controllers
         public IActionResult EditAuthor(AuthorFormModel authorForm)
         {
             return RedirectToAction("AuthorProfile", new { id = authorForm.Id});
+        }
+
+        private async Task<List<SelectListItem>> GetSelectedList(BookFormModel bookFormModel)
+        {
+            return (await _libraryService
+                    .GetAuthors())
+                .Select(a => new SelectListItem
+                {
+                    Text = a.Surname,
+                    Value = a.Id.ToString(),
+                    Selected = bookFormModel?.AuthorIds?.Contains(a.Id) ?? false
+                }).ToList();
         }
     }
 }

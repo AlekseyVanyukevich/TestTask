@@ -17,33 +17,6 @@ namespace TestTask.Infrastructure.Repositories
             Context = context;
         }
 
-        public async Task Add(Book book, IEnumerable<Author> authors)
-        {
-            if (!authors.Any())
-            {
-                throw new ArgumentException("Must be at least one author");
-            }
-            await Context.Books.AddAsync(book);
-            await Context.SaveChangesAsync();
-            foreach (var author in authors)
-            {
-                var existedAuthor = await Context.Authors
-                    .FirstOrDefaultAsync(a => a.Surname == author.Surname);
-
-                if (existedAuthor == null)
-                {
-                    await Context.Authors.AddAsync(author);
-                    await Context.SaveChangesAsync();
-                }
-
-                var entity = existedAuthor ?? author;
-
-                await Context.BookAuthors
-                    .AddAsync(new BookAuthor {BookId = book.Id, AuthorId = entity.Id});
-                await Context.SaveChangesAsync();
-            }
-        }
-
         public async Task<IEnumerable<Book>> GetBooksByAuthorId(int authorId)
         {
             return await Context.BookAuthors

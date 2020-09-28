@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using TestTask.Domain.Repositories;
 using TestTask.Infrastructure.Repositories;
 using TestTask.Mvc.Extensions;
+using TestTask.Mvc.Options;
 
 namespace TestTask.Mvc
 {
@@ -21,6 +22,9 @@ namespace TestTask.Mvc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions();
+
+            services.Configure<StorageAccountOptions>(Configuration.GetSection("StorageAccount"));
             services
                 .AddLibraryContext(Configuration)
                 .AddScoped<IBooksRepository, BooksRepository>()

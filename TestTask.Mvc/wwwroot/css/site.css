@@ -74,45 +74,17 @@ body {
   vertical-align: middle;
 }
 
-.form-group-delete {
-  position: relative;
-}
-.delete-btn {
-  box-sizing: border-box;
-  position: absolute;
-  top: 50%;
-  right: 20px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  transform: translateY(-50%);
-  transition: opacity 0.3s ease;
-}
-
-.delete-btn::after {
-  position: absolute;
-  content: "X";
-  transform: rotate(90deg);
-}
-
-.form-group-delete:hover .delete-btn {
-  opacity: 1;
-}
-
-.alert {
-  position: relative;
-}
-
 .alert-close {
-  position: absolute;
+  position: relative;
   width: 16px;
   height: 16px;
-  top: 20px;
-  right: 20px;
-  border-radius: 50%;
-  padding: 3px;
+}
+
+.alert-close::after {
+  position: absolute;
+  content: "x";
+  font-size: 12px;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
 }

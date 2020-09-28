@@ -24,6 +24,26 @@ namespace TestTask.Domain.Mappers
 
             CreateMap<AuthorModel, Author>();
             CreateMap<BookModel, Book>();
+            
+            
+            CreateMap<AuthorModel, AuthorFormModel>().ReverseMap();
+            CreateMap<AuthorFormModel, Author>();
+
+            CreateMap<BookModel, BookFormModel>()
+                .ForMember(x => x.AuthorIds, opts =>
+                {
+                    opts.MapFrom(bm => bm.Authors.Select(a => a.Id));
+                });
+
+            CreateMap<BookFormModel, Book>()
+                .ForMember(x => x.BookAuthors, opts =>
+                {
+                    opts.MapFrom(bfm => bfm.AuthorIds.Select(aId => new BookAuthor
+                    {
+                        BookId = bfm.Id,
+                        AuthorId = aId
+                    }));
+                });
         }
     }
     

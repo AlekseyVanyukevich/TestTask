@@ -17,8 +17,8 @@ namespace TestTask.Domain.ViewModels.Author
         [Display(Name = "Birthday date")]
         public DateTime BirthDate { get; set; }
         
-        [Display(Name = "Image")]
-        public string Image { get; set; }
+        // [Display(Name = "Image")]
+        // public string Image { get; set; }
         
         [Display(Name = "Books")]
         public IEnumerable<BookModel> Books { get; set; }

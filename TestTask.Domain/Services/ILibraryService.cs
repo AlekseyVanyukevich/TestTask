@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TestTask.Domain.ViewModels;
 using TestTask.Domain.ViewModels.Author;
@@ -14,12 +15,16 @@ namespace TestTask.Domain.Services
 
         Task<AuthorModel> GetAuthorInfoById(int id);
 
-        Task CreateNewBook(BookModel book);
+        Task CreateNewBook(BookFormModel bookFormModel);
 
         Task UpdateBook(BookModel book);
-
+        
         Task DeleteBook(int id);
 
         Task<IEnumerable<AuthorModel>> GetAuthors();
+
+        Task AddAuthor(AuthorFormModel authorFormModel);
+
+        BookFormModel CreateBookFormModel(BookModel bookModel);
     }
 }

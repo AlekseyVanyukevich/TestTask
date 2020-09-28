@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -43,6 +44,17 @@ namespace TestTask.Infrastructure.Repositories
                 .Include(b => b.BookAuthors)
                 .ThenInclude(ba => ba.Book)
                 .ToListAsync();
+        }
+
+        public new async Task Add(Author entity)
+        {
+            var author = await Context.Authors.FirstOrDefaultAsync(a => a.Surname == entity.Surname);
+            if (author != null)
+            {
+                throw new ArgumentException("Author with such surname is already exists");
+            }
+
+            await Context.AddAsync(entity);
         }
     }
 }

@@ -1,10 +1,13 @@
 ﻿@using Microsoft.EntityFrameworkCore.Internal
+@using TestTask.Mvc.Extensions
 @model IEnumerable<TestTask.Domain.ViewModels.Book.BookModel>
 
 
-<h2>Library</h2>
-<partial name="Alert" model="@TempData["Alert"]"/>
-@TempData["Alert"]
+<h2>
+    @Html.ActionLink("Library", "Index")
+</h2>
+@await Html.PartialAsync("Alert", TempData.Get<AlertModel>("Alert"))
+
 <table class="table table-striped text-center table-middle">
     <thead>
     <tr>

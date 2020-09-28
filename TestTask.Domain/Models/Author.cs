@@ -15,7 +15,7 @@ namespace TestTask.Domain.Models
         [StringLength(20)]
         [Required]
         public string Surname { get; set; }
-        public string Image { get; set; }
+        // public string Image { get; set; }
         [Required]
         [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }

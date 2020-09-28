@@ -1,6 +1,8 @@
 ﻿@using Microsoft.EntityFrameworkCore.Internal
+@using TestTask.Mvc.Extensions
 @model PaginatedResponseModel<TestTask.Domain.ViewModels.Author.AuthorModel>
 
+@* <partial model="@TempData.Get<AlertModel>("Alert")" name="Alert"/> *@
 <div class="row">
     @foreach (var author in @Model.Data)
     {
@@ -8,7 +10,7 @@
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title">
-                        @Html.DisplayNameFor(x => author.Surname): @author.Surname
+                        @($"{author.Name} {author.Surname}")
                     </h5>
                 </div>
                 <div class="card-body">
@@ -22,7 +24,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    @Html.ActionLink("Author profile", "AuthorProfile", "Library", new {id = author.Id}, new {@class = "btn btn-primary"});
+                    @Html.ActionLink("Author profile", "AuthorProfile", "Library", new {id = author.Id}, new {@class = "btn btn-primary"})
                 </div>
             </div>
         </div>

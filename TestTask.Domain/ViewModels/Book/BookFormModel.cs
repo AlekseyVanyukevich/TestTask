@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using TestTask.Domain.Attributes;
 
@@ -16,6 +17,8 @@ namespace TestTask.Domain.ViewModels.Book
         [YearNotMoreThanNow(ErrorMessage = "Must be a valid year")]
         public int Year { get; set; }
         [MustHaveOneElement(ErrorMessage = "At least one author is required")]
+        [Display(Name = "Authors")]
+        
         public IEnumerable<int> AuthorIds { get; set; }
     }
 }
