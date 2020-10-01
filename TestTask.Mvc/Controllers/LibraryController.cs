@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using TestTask.Domain.Data;
 using TestTask.Domain.Services;
@@ -18,16 +19,22 @@ namespace TestTask.Mvc.Controllers
     public class LibraryController : Controller
     {
         private readonly ILibraryService _libraryService;
+        private readonly IFirebaseService _firebase;
+        private readonly IConfiguration _configuration;
         private ILogger<LibraryController> _logger;
-        public LibraryController(ILibraryService libraryService, ILogger<LibraryController> logger)
+        public LibraryController(ILibraryService libraryService, IFirebaseService firebase, IConfiguration configuration)
         {
             _libraryService = libraryService;
-            _logger = logger;
+            _firebase = firebase;
+            _configuration = configuration;
         }
         // GET
         public async Task<IActionResult> Index()
         {
+            var r = _configuration.GetValue<string>("firebaseFile");
+            // await _firebase.SendNotifications("App", "App is starting", "TestTask");
             var inventory = await _libraryService.GetLibraryBooks();
+            return Content(r);
             return View(inventory);
         }
 

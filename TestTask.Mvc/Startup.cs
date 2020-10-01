@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TestTask.Domain.Options;
 using TestTask.Domain.Repositories;
 using TestTask.Infrastructure.Repositories;
 using TestTask.Mvc.Extensions;
@@ -23,7 +24,7 @@ namespace TestTask.Mvc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
-
+            services.Configure<FirebaseOptions>(Configuration.GetSection("Firebase"));
             services.Configure<StorageAccountOptions>(Configuration.GetSection("StorageAccount"));
             services
                 .AddLibraryContext(Configuration)
@@ -55,7 +56,8 @@ namespace TestTask.Mvc
             app.UseRouting();
             
             // app.UseAuthorization();
-
+            
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

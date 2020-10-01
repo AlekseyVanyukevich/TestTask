@@ -10,6 +10,7 @@ namespace TestTask.Mvc.Extensions
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             return services
+                .AddSingleton<IFirebaseService, FirebaseService>()
                 .AddScoped<ILibraryService, LibraryService>();
         }
 
