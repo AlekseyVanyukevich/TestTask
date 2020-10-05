@@ -2,14 +2,16 @@
 <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-messaging.js"></script>
 
 <environment exclude="Development">
-    <script src="~/js/site.min.js"></script>
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/dist/bundle.min.js"></script>
 </environment>
 <environment include="Development">
     <script src="~/lib/jquery/jquery.js"></script>
     <script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
     <script src="~/lib/jquery-validate/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
 </environment>
-<script src="~/js/site.js" asp-append-version="true"></script>
-
-@*<script src="~/firebase-messaging-sw.js"></script>*@

@@ -1,7 +1,7 @@
 ﻿importScripts('https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/7.21.1/firebase-messaging.js');
 
-const config = {
+var config = {
     apiKey: "AIzaSyA9qLULQCsT_ksDA72JKmBrD5kMCcZO5sg",
     authDomain: "testtask-31960.firebaseapp.com",
     databaseURL: "https://testtask-31960.firebaseio.com",
@@ -14,13 +14,13 @@ const config = {
 
 firebase.initializeApp(config);
 
-const messaging = firebase.messaging();
+var messaging = firebase.messaging();
 
 
 messaging.setBackgroundMessageHandler(function(payload) {
    console.log('[firebase-messaging-sw.js] Received background message ', payload)
-   const notificationTitle = 'Background Message Title';
-   const notificationOptions = {
+   var notificationTitle = 'Background Message Title';
+   var notificationOptions = {
       body: 'Background Message body.'
    };
    return self.registration.showNotification(notificationTitle,

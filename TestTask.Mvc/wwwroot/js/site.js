@@ -1,9 +1,4 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-
-const firebaseConfig = {
+﻿var firebaseConfig = {
     apiKey: "AIzaSyA9qLULQCsT_ksDA72JKmBrD5kMCcZO5sg",
     authDomain: "testtask-31960.firebaseapp.com",
     databaseURL: "https://testtask-31960.firebaseio.com",
@@ -14,15 +9,18 @@ const firebaseConfig = {
     measurementId: "G-GWQRHCMTN6"
 };
 
-$(document).ready(function (){
+$(document).ready(function () {
     $('[data-toggle="popover"]').popover();
-    $('.alert').click(function ({ target }) {
-        if (target.closest('.alert-close')) {
+    $('.alert').click(function (event) {
+        if (event.target.closest('.alert-close')) {
             this.remove();
         }
     });
+    console.log('sdfsdf');
     $('[data-trigger="push"]').click(() => {
-        const token = getToken();
+        var token = getToken();
+        console.log(localStorage.getItem('token'));
+
         if (token) {
             $.ajax({
                 method: 'GET',
@@ -35,24 +33,33 @@ $(document).ready(function (){
 
     });
 
-    const getToken = () => {
+    var getToken = () => {
         return localStorage.getItem('token');
     }
 
     firebaseStart();
-/*    const saveToken = token => {
-        $.ajax({
-            type: 'POST',
-            url: '/Library/AddToken',
-            data: { token }
-        })
-    }*/
+    /*    const saveToken = token => {
+            $.ajax({
+                type: 'POST',
+                url: '/Library/AddToken',
+                data: { token }
+            })
+        }*/
 });
 
-const firebaseStart = () => {
+var firebaseStart = () => {
     firebase.initializeApp(firebaseConfig);
 
-    const messaging = firebase.messaging();
+    var messaging = firebase.messaging();
+
+    var getRegToken = () => {
+        messaging.getToken().then(currentToken => {
+            if (currentToken) {
+                saveToken(currentToken);
+            }
+        })
+            .catch(err => console.log(err));
+    }
 
     messaging.requestPermission()
         .then(() => {
@@ -66,24 +73,15 @@ const firebaseStart = () => {
             body: payload.notification.body
         };
 
-        const notification = new Notification(notificationTitle, notificationOptions);
+        var notification = new Notification(notificationTitle, notificationOptions);
     });
 
-    const saveToken = (token) => {
+    var saveToken = (token) => {
         localStorage.setItem('token', token);
     }
 
 
-    const getRegToken = () => {
-        messaging.getToken().then(currentToken => {
-                if (currentToken) {
-                    saveToken(currentToken);
-                }
-            })
-            .catch(err => console.log(err));
-    }
+
 
 
 }
-
-
