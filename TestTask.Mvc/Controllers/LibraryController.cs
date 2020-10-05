@@ -20,21 +20,15 @@ namespace TestTask.Mvc.Controllers
     {
         private readonly ILibraryService _libraryService;
         private readonly IFirebaseService _firebase;
-        private readonly IConfiguration _configuration;
-        private ILogger<LibraryController> _logger;
-        public LibraryController(ILibraryService libraryService, IFirebaseService firebase, IConfiguration configuration)
+        public LibraryController(ILibraryService libraryService, IFirebaseService firebase)
         {
             _libraryService = libraryService;
             _firebase = firebase;
-            _configuration = configuration;
         }
         // GET
         public async Task<IActionResult> Index()
         {
-            var r = _configuration.GetValue<string>("firebaseFile");
-            // await _firebase.SendNotifications("App", "App is starting", "TestTask");
             var inventory = await _libraryService.GetLibraryBooks();
-            return Content(r);
             return View(inventory);
         }
 
@@ -42,11 +36,7 @@ namespace TestTask.Mvc.Controllers
         {
             ViewBag.ToDelete = delete == true;
             var bookInfo = await _libraryService.GetBookInfoById(id);
-            foreach (var author in bookInfo.Authors)
-            {
-                _logger.LogInformation((author == null).ToString());
-            }
-      
+
             return View(bookInfo);
         }
 
@@ -234,6 +224,19 @@ namespace TestTask.Mvc.Controllers
                     Value = a.Id.ToString(),
                     Selected = bookFormModel?.AuthorIds?.Contains(a.Id) ?? false
                 }).ToList();
+        }
+
+        [HttpPost]
+        public IActionResult AddToken(string token)
+        {
+            _firebase.AddToken(token);
+            return Ok();
+        }
+
+        public async Task<ActionResult> Notify([FromQuery] string token)
+        {
+            await _firebase.SendNotification("Library", "Library body", token);
+            return Ok();
         }
     }
 }

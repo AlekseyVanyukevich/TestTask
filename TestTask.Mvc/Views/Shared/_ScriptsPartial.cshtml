@@ -1,37 +1,15 @@
-﻿<environment exclude="Development">
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+﻿<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-messaging.js"></script>
+
+<environment exclude="Development">
     <script src="~/js/site.min.js"></script>
 </environment>
 <environment include="Development">
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
+    <script src="~/lib/jquery-validate/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
 </environment>
-@* <!-- The core Firebase JS SDK is always required and must be listed first --> *@
-@* <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script> *@
-@* *@
-@* <!-- TODO: Add SDKs for Firebase products that you want to use *@
-@* https://firebase.google.com/docs/web/setup#available-libraries --> *@
-@* <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-analytics.js"></script> *@
-@* <script> *@
-@*   // Your web app's Firebase configuration *@
-@*   // For Firebase JS SDK v7.20.0 and later, measurementId is optional *@
-@*   var firebaseConfig = { *@
-@*     apiKey: "AIzaSyA9qLULQCsT_ksDA72JKmBrD5kMCcZO5sg", *@
-@*     authDomain: "testtask-31960.firebaseapp.com", *@
-@*     databaseURL: "https://testtask-31960.firebaseio.com", *@
-@*     projectId: "testtask-31960", *@
-@*     storageBucket: "testtask-31960.appspot.com", *@
-@*     messagingSenderId: "963595274668", *@
-@*     appId: "1:963595274668:web:b5c1da4d52fdeda79e9209", *@
-@*     measurementId: "G-GWQRHCMTN6" *@
-@*   }; *@
-@*   // Initialize Firebase *@
-@*   firebase.initializeApp(firebaseConfig); *@
-@*   firebase.analytics(); *@
-@* </script> *@
+<script src="~/js/site.js" asp-append-version="true"></script>
+
+@*<script src="~/firebase-messaging-sw.js"></script>*@

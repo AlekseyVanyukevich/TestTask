@@ -7,7 +7,6 @@ using TestTask.Domain.Options;
 using TestTask.Domain.Repositories;
 using TestTask.Infrastructure.Repositories;
 using TestTask.Mvc.Extensions;
-using TestTask.Mvc.Options;
 
 namespace TestTask.Mvc
 {
@@ -23,9 +22,8 @@ namespace TestTask.Mvc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<FirebaseOptions>(Configuration.GetSection("GoogleFirebase"));
             services.AddOptions();
-            services.Configure<FirebaseOptions>(Configuration.GetSection("Firebase"));
-            services.Configure<StorageAccountOptions>(Configuration.GetSection("StorageAccount"));
             services
                 .AddLibraryContext(Configuration)
                 .AddScoped<IBooksRepository, BooksRepository>()
@@ -34,7 +32,9 @@ namespace TestTask.Mvc
                 .AddMappers()
                 .AddServices()
                 .AddControllersWithViews();
-            
+
+            services.AddProgressiveWebApp();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
