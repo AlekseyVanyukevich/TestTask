@@ -76,7 +76,6 @@ const firebaseStart = () => {
 
     const getRegToken = () => {
         messaging.getToken().then(currentToken => {
-                console.log(currentToken);
                 if (currentToken) {
                     saveToken(currentToken);
                 }
